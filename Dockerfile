@@ -1,4 +1,4 @@
-FROM golang AS builder
+FROM registry.redhat.io/ubi8/go-toolset AS builder
 WORKDIR /go
 COPY http-client.go .
 RUN go build http-client.go 
