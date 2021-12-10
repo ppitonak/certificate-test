@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: test-certificates
+spec:
+  params:
+  - name: REVISION
+    default: main
+  workspaces:
+  - name: source
+  tasks:
+  - name: use-image
+    taskSpec:
+      steps:
+      - name: run
+        image: quay.io/ppitonak/certificate-test:211210c
+        script: |
+          #!/usr/bin/env bash
+          set -e
+          echo "SSL_CERT_DIR: $SSL_CERT_DIR"
+          http-client https://uploader-uploader.apps.cicd.tekton.codereadyqe.com/builds/1.6.1/145112-4.9/catalog-source.yaml
+          http-client https://api.cicd.tekton.codereadyqe.com:6443/version
+          curl https://uploader-uploader.apps.cicd.tekton.codereadyqe.com/builds/1.6.1/145112-4.9/catalog-source.yaml
+          HOST=$(oc whoami --show-server)
+          echo "HOST: $HOST"
+          curl ${HOST}/version
