@@ -6,7 +6,7 @@ COPY http-client.go .
 RUN go version && go build http-client.go 
 
 FROM quay.io/fedora/fedora:35
-#ADD artifacts.crt /etc/pki/ca-trust/source/anchors/artifacts.crt
-ADD artifacts.crt /etc/pki/tls/certs/artifacts.crt
-#RUN update-ca-trust extract
+ADD redhat.crt /etc/pki/ca-trust/source/anchors/artifacts.crt
+ADD cicd.crt /etc/pki/tls/certs/artifacts.crt
+RUN update-ca-trust extract
 COPY --from=builder /foo/http-client /usr/bin

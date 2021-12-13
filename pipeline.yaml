@@ -13,14 +13,22 @@ spec:
     taskSpec:
       steps:
       - name: run
-        image: quay.io/ppitonak/certificate-test:211210c
+        image: quay.io/ppitonak/certificate-test:211210g
         script: |
           #!/usr/bin/env bash
-          set -e
+          #set -e
           echo "SSL_CERT_DIR: $SSL_CERT_DIR"
-          http-client https://uploader-uploader.apps.cicd.tekton.codereadyqe.com/builds/1.6.1/145112-4.9/catalog-source.yaml
+          
+          echo -e "\n\nhttp-client: gitlab"
+          #http-client https://uploader2-ppitonak.apps.cicd.tekton.codereadyqe.com/builds/1.6.1/145112-4.9/catalog-source.yaml
+          http-client https://gitlab.cee.redhat.com/tekton/plumbing/-/raw/master/ci/secrets/polarion.yaml
+          
+          echo -e "\n\nhttp-client: API server"
           http-client https://api.cicd.tekton.codereadyqe.com:6443/version
-          curl https://uploader-uploader.apps.cicd.tekton.codereadyqe.com/builds/1.6.1/145112-4.9/catalog-source.yaml
-          HOST=$(oc whoami --show-server)
-          echo "HOST: $HOST"
-          curl ${HOST}/version
+          
+          echo -e "\n\ncurl: gitlab"
+          #curl https://uploader2-ppitonak.apps.cicd.tekton.codereadyqe.com/builds/1.6.1/145112-4.9/catalog-source.yaml
+          curl https://gitlab.cee.redhat.com/tekton/plumbing/-/raw/master/ci/secrets/polarion.yaml
+
+          echo -e "\n\ncurl: API server"
+          curl https://api.cicd.tekton.codereadyqe.com:6443/version
