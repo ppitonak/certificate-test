@@ -6,7 +6,12 @@ COPY http-client.go .
 RUN go version && go build http-client.go 
 
 FROM quay.io/fedora/fedora:35
-ADD redhat.crt /etc/pki/ca-trust/source/anchors/artifacts.crt
-ADD cicd.crt /etc/pki/tls/certs/artifacts.crt
+ADD redhat.crt /etc/pki/ca-trust/source/anchors/redhat.crt
+#ADD redhat.crt /etc/pki/tls/certs/redhat.crt
+
+#ADD gitlab.crt /etc/pki/tls/certs/gitlab.crt
+
+ADD cicd.crt /etc/pki/tls/certs/cicd.crt
+#ADD cicd.crt /etc/pki/ca-trust/source/anchors/cicd.crt
 RUN update-ca-trust extract
 COPY --from=builder /foo/http-client /usr/bin

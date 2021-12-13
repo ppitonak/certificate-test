@@ -13,21 +13,19 @@ spec:
     taskSpec:
       steps:
       - name: run
-        image: quay.io/ppitonak/certificate-test:211210g
+        image: quay.io/ppitonak/certificate-test:211210t
         script: |
           #!/usr/bin/env bash
           #set -e
           echo "SSL_CERT_DIR: $SSL_CERT_DIR"
           
           echo -e "\n\nhttp-client: gitlab"
-          #http-client https://uploader2-ppitonak.apps.cicd.tekton.codereadyqe.com/builds/1.6.1/145112-4.9/catalog-source.yaml
           http-client https://gitlab.cee.redhat.com/tekton/plumbing/-/raw/master/ci/secrets/polarion.yaml
           
           echo -e "\n\nhttp-client: API server"
           http-client https://api.cicd.tekton.codereadyqe.com:6443/version
           
           echo -e "\n\ncurl: gitlab"
-          #curl https://uploader2-ppitonak.apps.cicd.tekton.codereadyqe.com/builds/1.6.1/145112-4.9/catalog-source.yaml
           curl https://gitlab.cee.redhat.com/tekton/plumbing/-/raw/master/ci/secrets/polarion.yaml
 
           echo -e "\n\ncurl: API server"
